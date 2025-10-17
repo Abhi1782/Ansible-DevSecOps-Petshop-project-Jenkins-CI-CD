@@ -7,7 +7,6 @@ This project demonstrates a complete DevSecOps CI/CD pipeline for a Java-based P
 The pipeline integrates Jenkins, SonarQube, OWASP Dependency Check, Trivy, Ansible, and Docker to automate build, test, analysis, security scanning, and deployment.
 
 # Tools & Technologies Used
-# Tool / Technology	Purpose
 
 1) AWS EC2 (Ubuntu 22.04)	Infrastructure host for Jenkins, Docker, SonarQube
 2) Jenkins	CI/CD automation tool
@@ -25,9 +24,16 @@ The pipeline integrates Jenkins, SonarQube, OWASP Dependency Check, Trivy, Ansib
 # Installed Jenkins on Ubuntu EC2
 
 # Installed required plugins:
-JDK (Temurin 17)
-Maven Integration
-SonarQube Scanner
-OWASP Dependency Check
-Docker Pipeline
-Ansible Plugin
+1) JDK (Temurin 17)
+2) Maven Integration
+3) SonarQube Scanner
+4) OWASP Dependency Check
+5) Docker Pipeline
+6) Ansible Plugin
+
+2️⃣ SonarQube Configuration
+
+1) Deployed SonarQube via Docker on port 9000
+2) Generated SonarQube authentication token
+3) Configured SonarQube server in Jenkins under “Manage Jenkins → System”
+4) Created Quality Gates & Webhook integration with Jenkins
