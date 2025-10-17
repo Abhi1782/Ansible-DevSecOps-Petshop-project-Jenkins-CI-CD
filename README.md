@@ -87,5 +87,85 @@ Password: admin
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+# ⚙️ Step 3: Configure SonarQube in Jenkins
+
+1) Go to Manage Jenkins → Manage Plugins
+   a) Install the SonarQube Scanner plugin
+
+2) Then go to Manage Jenkins → Configure System
+   a) Scroll to SonarQube Servers
+   b) Click Add SonarQube
+   c) Enter:
+        Name: sonar-server
+        Server URL: http://<EC2-Public-IP>:9000
+        Authentication Token: (paste the generated token)
+   d) Click Apply & Save
+
+3) Go to Manage Jenkins → Global Tool Configuration
+   a) Add SonarQube Scanner tool named sonar-scanner
+
+# ⚙️ Step 4: Add SonarQube Stage to Jenkins Pipeline
+
+pipeline {
+    agent any
+    tools {
+        jdk 'jdk17'
+        maven 'maven3'
+    }
+    environment {
+        SCANNER_HOME = tool 'sonar-scanner'
+    }
+    stages {
+        stage('Checkout SCM') {
+            steps {
+                git 'https://github.com/Aj7Ay/jpetstore-6.git'
+            }
+        }
+
+        stage('Maven Build') {
+            steps {
+                sh 'mvn clean compile'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('sonar-server') {
+                    sh '''
+                    $SCANNER_HOME/bin/sonar-scanner \
+                    -Dsonar.projectName=Petshop \
+                    -Dsonar.java.binaries=. \
+                    -Dsonar.projectKey=Petshop
+                    '''
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                script {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token'
+                }
+            }
+        }
+    }
+}
+
+# 🧾 Result
+Once the build runs successfully, the SonarQube dashboard will show detailed metrics such as:
+
+ Code Smells
+ Vulnerabilities
+ Duplications
+ Test Coverage
+ Maintainability & Reliability Ratings
+
+You can view the project report in SonarQube under Projects → Petshop.
+
+http://<EC2-Public-IP>:9000/dashboard?id=Petshop
+
+<img width="1920" height="1080" alt="Screenshot (415)" src="https://github.com/user-attachments/assets/32dba10d-8ced-4e75-b8bf-42f1486c4b72" />
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
