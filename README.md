@@ -21,9 +21,10 @@ The pipeline integrates Jenkins, SonarQube, OWASP Dependency Check, Trivy, Ansib
 # CI/CD Pipeline Stages
 1️⃣ Jenkins Setup
 
-# Installed Jenkins on Ubuntu EC2
+ @Installed Jenkins on Ubuntu EC2. T2.medium Server and 30 GB EBS.
+ And we configured the port number 8090 instead of 8080.
 
-# Installed required plugins:
+ Installed required plugins:
 1) JDK (Temurin 17)
 2) Maven Integration
 3) SonarQube Scanner
