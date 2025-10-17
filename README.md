@@ -46,6 +46,7 @@ In this stage, the pipeline performs essential build steps such as workspace cle
 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/f259a5bb-9f1b-466c-8ef3-00fea435833b" />
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # 🧠 SonarQube Configuration and Integration with Jenkins
 
@@ -70,11 +71,21 @@ Password: admin
 
 <img width="1920" height="1080" alt="Screenshot (385)" src="https://github.com/user-attachments/assets/42ec6a03-5969-4696-80f2-d000249eeea2" />
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 <img width="1920" height="1080" alt="Screenshot (387)" src="https://github.com/user-attachments/assets/2bf48205-7f5f-44c4-9e67-29e0d0210fb5" />
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+# ⚙️ Step 2: Generate SonarQube Token
 
+1) Log in to SonarQube → Administration → Security → Users
+2) Click on your user and Generate Token (e.g., Sonar-token)
+3) Copy this token — it will be used in Jenkins for authentication
 
+<img width="1920" height="1080" alt="Screenshot (395)" src="https://github.com/user-attachments/assets/d0be1d07-39b6-45fe-8089-bbd73426bcf2" />
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
