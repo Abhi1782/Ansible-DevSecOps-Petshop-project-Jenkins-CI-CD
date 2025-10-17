@@ -276,3 +276,90 @@ Once the Jenkins pipeline runs successfully:
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+# 🐳 Docker Hub Integration and Ansible Configuration
+
+After completing the OWASP Dependency Check stage, the next steps involve integrating Docker and Ansible into the Jenkins pipeline.
+This ensures automated Docker image creation, push to Docker Hub, and container deployment using Ansible playbooks.
+
+# ⚙️ Step 1: Install Docker and Required Jenkins Plugins
+
+🧩 Install Docker on Jenkins Server
+
+Run the following commands on your Jenkins EC2 instance:
+
+sudo apt-get update
+sudo apt-get install docker.io -y
+sudo usermod -aG docker $USER
+newgrp docker
+sudo chmod 777 /var/run/docker.sock
+
+🧩 Verify Installation
+
+docker --version
+
+# ⚙️ Step 2: Configure DockerHub Credentials in Jenkins
+
+1) Go to Manage Jenkins → Manage Credentials → Global → Add Credentials
+2) Fill in the following:
+   a) Kind: Username and Password
+   b) Username: Your DockerHub username
+   c) Password: Your DockerHub password or Personal Access Token
+   d) ID: dockerhub-credentials (You will use this ID in Jenkins pipeline)
+3) Click Create
+
+# ⚙️ Step 3: Generate DockerHub Personal Access Token (PAT)
+
+1) Log in to your DockerHub Account
+2) Go to Account Settings → Security → New Access Token
+3) Generate a new token and name it (e.g., jenkins-automation)
+4) Copy the token and store it securely — this will be used inside the Ansible playbook for DockerHub authentication.
+
+# ⚙️ Step 4: Add Ansible Repository and Install Ansible on Ubuntu
+
+🧩 Add Ansible Repository
+sudo apt-get update
+sudo apt install software-properties-common -y
+sudo add-apt-repository --yes --update ppa:ansible/ansible
+
+🧩 Install Ansible
+sudo apt install ansible -y
+sudo apt install ansible-core -y
+
+🧩 Verify Installation
+ansible --version
+
+# ⚙️ Step 5: Configure Ansible Host Inventory
+
+Edit the Ansible hosts file:
+sudo vi /etc/ansible/hosts
+
+Add your Jenkins or target system under a group:
+[docker]
+<target-machine-public-ip>
+
+Save and exit the file.
+
+# ⚙️ Step 6: Configure Ansible in Jenkins
+
+1) Go to Manage Jenkins → Manage Plugins
+     a) Ensure the Ansible Plugin is installed.
+2) Go to Manage Jenkins → Global Tool Configuration
+     a) Under Ansible installations, click Add Ansible
+     b) Name: ansible
+     c) Path: (Find it using)
+          which ansible
+     e) Click Apply & Save
+3) Go to Manage Jenkins → Credentials → Add Credentials
+   a) Choose Kind: SSH Username with Private Key
+   b) Add your PEM key (used for Ansible connection)
+   c) ID: ssh
+   
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  
+  <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/aafb596b-e154-48ad-ad4b-4aefd36c7b04" />
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ <img width="1920" height="1080" alt="Screenshot (430)" src="https://github.com/user-attachments/assets/66d55bde-280f-4b73-97ee-f0f3a9dd47c7" />
+
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
