@@ -39,6 +39,11 @@ The pipeline integrates Jenkins, SonarQube, OWASP Dependency Check, Trivy, Ansib
 3) Configured SonarQube server in Jenkins under “Manage Jenkins → System”
 4) Created Quality Gates & Webhook integration with Jenkins
 
+# Jenkins Pipeline Execution – Stage 1 (Successful Build)
+
+The Jenkins pipeline was successfully created and executed for the Petshop DevSecOps Project.
+In this stage, the pipeline performs essential build steps such as workspace cleanup, source code checkout, and Maven compilation.
+
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/f259a5bb-9f1b-466c-8ef3-00fea435833b" />
 
 
