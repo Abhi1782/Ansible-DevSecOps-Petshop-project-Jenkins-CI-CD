@@ -151,6 +151,8 @@ pipeline {
     }
 }
 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 # 🧾 Result
 Once the build runs successfully, the SonarQube dashboard will show detailed metrics such as:
 
@@ -168,4 +170,109 @@ http://<EC2-Public-IP>:9000/dashboard?id=Petshop
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+# 🧱 Build WAR File and OWASP Dependency Check Integration
+
+After completing the SonarQube static code analysis, the next step in our DevSecOps pipeline focuses on:
+
+1) Building the deployable .war file using Maven, and
+2) Integrating OWASP Dependency Check to scan for known vulnerabilities in third-party libraries.
+
+# ⚙️ Step 1: Install OWASP Dependency Check Plugin in Jenkins
+
+1) Navigate to Manage Jenkins → Manage Plugins → Available Plugins
+2) Search for and install the plugin:
+  a) OWASP Dependency-Check Plugin
+3) Once installed, go to Manage Jenkins → Global Tool Configuration
+  a) Under Dependency-Check installations, click Add Dependency-Check
+  b) Provide a name, e.g., DP-Check
+  c) Click Apply & Save
+
+# ⚙️ Step 2: Update Jenkins Pipeline
+
+We now add two new stages to the Jenkins pipeline:
+
+1) Build WAR file – packages the compiled code into a deployable artifact.
+2) OWASP Dependency Check – scans for vulnerabilities in dependencies.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+pipeline {
+    agent any
+    tools {
+        jdk 'jdk17'
+        maven 'maven3'
+    }
+    environment {
+        SCANNER_HOME = tool 'sonar-scanner'
+    }
+    stages {
+        stage('Checkout SCM') {
+            steps {
+                git 'https://github.com/Aj7Ay/jpetstore-6.git'
+            }
+        }
+
+        stage('Maven Compile & Test') {
+            steps {
+                sh 'mvn clean compile'
+                sh 'mvn test'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('sonar-server') {
+                    sh '''
+                    $SCANNER_HOME/bin/sonar-scanner \
+                    -Dsonar.projectName=Petshop \
+                    -Dsonar.java.binaries=. \
+                    -Dsonar.projectKey=Petshop
+                    '''
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                script {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token'
+                }
+            }
+        }
+
+        stage('Build WAR File') {
+            steps {
+                echo 'Building the application WAR file...'
+                sh 'mvn clean install -DskipTests=true'
+            }
+        }
+
+        stage('OWASP Dependency Check') {
+            steps {
+                echo 'Running OWASP Dependency Check...'
+                dependencyCheck additionalArguments: '--scan ./ --format XML', odcInstallation: 'DP-Check'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
+    }
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# 📊 Step 3: Analyze OWASP Report
+
+Once the Jenkins pipeline runs successfully:
+  1) The OWASP plugin automatically generates a vulnerability report in XML format.
+  2) You can view the results directly from the Jenkins Project Dashboard under Dependency Check Reports.
+  3) The report includes:
+     a) Detected CVEs (Common Vulnerabilities and Exposures)
+     b) Severity levels (Low, Medium, High)
+     c) Affected dependencies and versions
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ <img width="1920" height="1080" alt="Screenshot (406)" src="https://github.com/user-attachments/assets/7c9a31b8-8fcb-4435-9a50-f8554e2df418" />
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
