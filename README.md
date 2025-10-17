@@ -38,3 +38,5 @@ The pipeline integrates Jenkins, SonarQube, OWASP Dependency Check, Trivy, Ansib
 2) Generated SonarQube authentication token
 3) Configured SonarQube server in Jenkins under “Manage Jenkins → System”
 4) Created Quality Gates & Webhook integration with Jenkins
+
+
