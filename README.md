@@ -174,6 +174,9 @@ http://<EC2-Public-IP>:9000/dashboard?id=Petshop
 
 <img width="1920" height="1080" alt="Screenshot (415)" src="https://github.com/user-attachments/assets/32dba10d-8ced-4e75-b8bf-42f1486c4b72" />
 
+
+<img width="1920" height="1080" alt="Screenshot (406)" src="https://github.com/user-attachments/assets/b98ca823-b7ae-481f-bb66-dc5ae0737521" />
+
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # 🧱 Build WAR File and OWASP Dependency Check Integration
@@ -281,7 +284,7 @@ Once the Jenkins pipeline runs successfully:
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
- <img width="1920" height="1080" alt="Screenshot (406)" src="https://github.com/user-attachments/assets/7c9a31b8-8fcb-4435-9a50-f8554e2df418" />
+ 
 
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
