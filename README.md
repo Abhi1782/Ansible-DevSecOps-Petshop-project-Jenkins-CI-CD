@@ -1,12 +1,13 @@
-# Ansible-DevSecOps-Petshop-project-Jenkins-CI-CD
+# 🛠️ Ansible-DevSecOps-Petshop-project-Jenkins-CI-CD
+
 We will be deploying a Petshop Java-based application. This is an everyday use case scenario used by several organizations. We will be using Jenkins as a CI/CD tool and deploying our application on a Docker container
 
-# Project Overview
+# 🏗 Project Overview
 
 This project demonstrates a complete DevSecOps CI/CD pipeline for a Java-based Petshop application.
 The pipeline integrates Jenkins, SonarQube, OWASP Dependency Check, Trivy, Ansible, and Docker to automate build, test, analysis, security scanning, and deployment.
 
-# Tools & Technologies Used
+# 🧩 Tools & Technologies Used
 
 1) AWS EC2 (Ubuntu 22.04)	Infrastructure host for Jenkins, Docker, SonarQube
 2) Jenkins	CI/CD automation tool
@@ -18,26 +19,28 @@ The pipeline integrates Jenkins, SonarQube, OWASP Dependency Check, Trivy, Ansib
 8) Ansible	Configuration management and deployment automation
 9) GitHub	Source code repository
 
-# CI/CD Pipeline Stages
-1️⃣ Jenkins Setup
+# 🚀 CI/CD Pipeline Stages
+
+ 1️⃣ Jenkins Setup
 
  @ Installed Jenkins on Ubuntu EC2. T2.medium Server and 30 GB EBS.
  And we configured the port number 8090 instead of 8080.
 
  Installed required plugins:
-1) JDK (Temurin 17)
-2) Maven Integration
-3) SonarQube Scanner
-4) OWASP Dependency Check
-5) Docker Pipeline
-6) Ansible Plugin
+
+ 1) JDK (Temurin 17)
+ 2) Maven Integration
+ 3) SonarQube Scanner
+ 4) OWASP Dependency Check
+ 5) Docker Pipeline
+ 6) Ansible Plugin
 
 2️⃣ SonarQube Configuration
 
-1) Deployed SonarQube via Docker on port 9000
-2) Generated SonarQube authentication token
-3) Configured SonarQube server in Jenkins under “Manage Jenkins → System”
-4) Created Quality Gates & Webhook integration with Jenkins
+ 1) Deployed SonarQube via Docker on port 9000
+ 2) Generated SonarQube authentication token
+ 3) Configured SonarQube server in Jenkins under “Manage Jenkins → System”
+ 4) Created Quality Gates & Webhook integration with Jenkins
 
 # Jenkins Pipeline Execution – Stage 1 (Successful Build)
 
@@ -106,50 +109,50 @@ Password: admin
 
 # ⚙️ Step 4: Add SonarQube Stage to Jenkins Pipeline
 
-pipeline {
-    agent any
-    tools {
-        jdk 'jdk17'
-        maven 'maven3'
-    }
-    environment {
-        SCANNER_HOME = tool 'sonar-scanner'
-    }
-    stages {
-        stage('Checkout SCM') {
-            steps {
-                git 'https://github.com/Aj7Ay/jpetstore-6.git'
+        pipeline {
+            agent any
+            tools {
+                jdk 'jdk17'
+                maven 'maven3'
             }
-        }
-
-        stage('Maven Build') {
-            steps {
-                sh 'mvn clean compile'
+            environment {
+                SCANNER_HOME = tool 'sonar-scanner'
             }
-        }
-
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('sonar-server') {
-                    sh '''
-                    $SCANNER_HOME/bin/sonar-scanner \
-                    -Dsonar.projectName=Petshop \
-                    -Dsonar.java.binaries=. \
-                    -Dsonar.projectKey=Petshop
-                    '''
+            stages {
+                stage('Checkout SCM') {
+                    steps {
+                        git 'https://github.com/Aj7Ay/jpetstore-6.git'
+                    }
+                }
+    
+            stage('Maven Build') {
+                steps {
+                    sh 'mvn clean compile'
+                }
+            }
+    
+            stage('SonarQube Analysis') {
+                steps {
+                    withSonarQubeEnv('sonar-server') {
+                        sh '''
+                        $SCANNER_HOME/bin/sonar-scanner \
+                        -Dsonar.projectName=Petshop \
+                        -Dsonar.java.binaries=. \
+                        -Dsonar.projectKey=Petshop
+                        '''
+                    }
+                }
+            }
+    
+            stage('Quality Gate') {
+                steps {
+                    script {
+                        waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token'
+                    }
                 }
             }
         }
-
-        stage('Quality Gate') {
-            steps {
-                script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token'
-                }
-            }
-        }
     }
-}
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -202,66 +205,66 @@ We now add two new stages to the Jenkins pipeline:
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-pipeline {
-    agent any
-    tools {
-        jdk 'jdk17'
-        maven 'maven3'
-    }
-    environment {
-        SCANNER_HOME = tool 'sonar-scanner'
-    }
-    stages {
-        stage('Checkout SCM') {
-            steps {
-                git 'https://github.com/Aj7Ay/jpetstore-6.git'
-            }
-        }
-
-        stage('Maven Compile & Test') {
-            steps {
-                sh 'mvn clean compile'
-                sh 'mvn test'
-            }
-        }
-
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('sonar-server') {
-                    sh '''
-                    $SCANNER_HOME/bin/sonar-scanner \
-                    -Dsonar.projectName=Petshop \
-                    -Dsonar.java.binaries=. \
-                    -Dsonar.projectKey=Petshop
-                    '''
-                }
-            }
-        }
-
-        stage('Quality Gate') {
-            steps {
-                script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token'
-                }
-            }
-        }
-
-        stage('Build WAR File') {
-            steps {
-                echo 'Building the application WAR file...'
-                sh 'mvn clean install -DskipTests=true'
-            }
-        }
-
-        stage('OWASP Dependency Check') {
-            steps {
-                echo 'Running OWASP Dependency Check...'
-                dependencyCheck additionalArguments: '--scan ./ --format XML', odcInstallation: 'DP-Check'
-                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-            }
-        }
-    }
-}
+     pipeline {
+         agent any
+         tools {
+             jdk 'jdk17'
+             maven 'maven3'
+         }
+         environment {
+             SCANNER_HOME = tool 'sonar-scanner'
+         }
+         stages {
+             stage('Checkout SCM') {
+                 steps {
+                     git 'https://github.com/Aj7Ay/jpetstore-6.git'
+                 }
+             }
+     
+             stage('Maven Compile & Test') {
+                 steps {
+                     sh 'mvn clean compile'
+                     sh 'mvn test'
+                 }
+             }
+     
+             stage('SonarQube Analysis') {
+                 steps {
+                     withSonarQubeEnv('sonar-server') {
+                         sh '''
+                         $SCANNER_HOME/bin/sonar-scanner \
+                         -Dsonar.projectName=Petshop \
+                         -Dsonar.java.binaries=. \
+                         -Dsonar.projectKey=Petshop
+                         '''
+                     }
+                 }
+             }
+     
+             stage('Quality Gate') {
+                 steps {
+                     script {
+                         waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token'
+                     }
+                 }
+             }
+     
+             stage('Build WAR File') {
+                 steps {
+                     echo 'Building the application WAR file...'
+                     sh 'mvn clean install -DskipTests=true'
+                 }
+             }
+     
+             stage('OWASP Dependency Check') {
+                 steps {
+                     echo 'Running OWASP Dependency Check...'
+                     dependencyCheck additionalArguments: '--scan ./ --format XML', odcInstallation: 'DP-Check'
+                     dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+                 }
+             }
+         }
+     }
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
