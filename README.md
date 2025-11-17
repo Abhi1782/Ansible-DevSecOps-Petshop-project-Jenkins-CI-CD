@@ -7,6 +7,12 @@
  This project demonstrates a complete DevSecOps CI/CD pipeline for a Java-based Petshop application.
  The pipeline integrates Jenkins, SonarQube, OWASP Dependency Check, Trivy, Ansible, and Docker to automate build, test, analysis, security scanning, and deployment.
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+<img width="1536" height="1024" alt="Project Overview" src="https://github.com/user-attachments/assets/28b3bfd1-5e39-4831-99b6-985fbc518181" />
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 # 🧩 Tools & Technologies Used
 
  1) AWS EC2 (Ubuntu 22.04)	Infrastructure host for Jenkins, Docker, SonarQube
