@@ -27,7 +27,7 @@
 
 # 🚀 CI/CD Pipeline Stages
 
- 1️⃣ Jenkins Setup
+### 1️⃣ Jenkins Setup
 
  @ Installed Jenkins on Ubuntu EC2. T2.medium Server and 30 GB EBS.
  And we configured the port number 8090 instead of 8080.
@@ -41,14 +41,14 @@
  5) Docker Pipeline
  6) Ansible Plugin
 
-2️⃣ SonarQube Configuration
+### 2️⃣ SonarQube Configuration
 
  1) Deployed SonarQube via Docker on port 9000
  2) Generated SonarQube authentication token
  3) Configured SonarQube server in Jenkins under “Manage Jenkins → System”
  4) Created Quality Gates & Webhook integration with Jenkins
 
-# Jenkins Pipeline Execution – Stage 1 (Successful Build)
+## Jenkins Pipeline Execution – Stage 1 (Successful Build)
 
 The Jenkins pipeline was successfully created and executed for the Petshop DevSecOps Project.
 In this stage, the pipeline performs essential build steps such as workspace cleanup, source code checkout, and Maven compilation.
@@ -68,23 +68,23 @@ sudo usermod -aG docker $USER
 newgrp docker
 sudo chmod 777 /var/run/docker.sock
 
-# Run SonarQube container
+## Run SonarQube container
 docker run -d --name sonar -p 9000:9000 sonarqube:lts-community
 
 @ Once the container is running, open your browser and access the SonarQube dashboard:
 http://<EC2-Public-IP>:9000
 
-# Default Credentials:
+## Default Credentials:
 Username: admin
 Password: admin
 
 <img width="1920" height="1080" alt="Screenshot (385)" src="https://github.com/user-attachments/assets/42ec6a03-5969-4696-80f2-d000249eeea2" />
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 <img width="1920" height="1080" alt="Screenshot (387)" src="https://github.com/user-attachments/assets/2bf48205-7f5f-44c4-9e67-29e0d0210fb5" />
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # ⚙️ Step 2: Generate SonarQube Token
 
@@ -94,7 +94,7 @@ Password: admin
 
 <img width="1920" height="1080" alt="Screenshot (395)" src="https://github.com/user-attachments/assets/d0be1d07-39b6-45fe-8089-bbd73426bcf2" />
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # ⚙️ Step 3: Configure SonarQube in Jenkins
 
@@ -400,7 +400,7 @@ Save and exit the file.
 This Petshop DevSecOps Project has been successfully implemented using a complete CI/CD pipeline with security and automation at every stage. The objective of the project was to build, test, scan, package, and deploy the Petshop Java Web Application using modern DevOps tools and best practices.
 
 
-# 📌 Key Outcomes
+## 📌 Key Outcomes
 
 ✅ Fully automated CI/CD pipeline
 ✅ DevSecOps practices implemented
@@ -410,7 +410,7 @@ This Petshop DevSecOps Project has been successfully implemented using a complet
 ✅ Ready for further container orchestration (Kubernetes, ECS, etc.)
 
 
-# 📂 Project Deliverables
+## 📂 Project Deliverables
 
 ✅ Jenkins Pipeline Script
 ✅ Dockerfile & DockerHub Push
@@ -420,7 +420,7 @@ This Petshop DevSecOps Project has been successfully implemented using a complet
 ✅ Complete GitHub Documentation (this README)
 
 
-# 🏁 Final Result
+## 🏁 Final Result
 
 The Petshop web application is now:
 ✔ Successfully built & packaged as a WAR file
