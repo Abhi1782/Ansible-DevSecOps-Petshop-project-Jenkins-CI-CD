@@ -61,7 +61,7 @@ In this stage, the pipeline performs essential build steps such as workspace cle
 
 After completing the initial Maven build stage, we set up SonarQube to perform code quality analysis and ensure our application meets secure coding standards.
 
-# ⚙️ Step 1: Deploy SonarQube on Docker
+## ⚙️ Step 1: Deploy SonarQube on Docker
 sudo apt-get update
 sudo apt-get install docker.io -y
 sudo usermod -aG docker $USER
@@ -86,7 +86,7 @@ Password: admin
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# ⚙️ Step 2: Generate SonarQube Token
+## ⚙️ Step 2: Generate SonarQube Token
 
 1) Log in to SonarQube → Administration → Security → Users
 2) Click on your user and Generate Token (e.g., Sonar-token)
@@ -96,7 +96,7 @@ Password: admin
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# ⚙️ Step 3: Configure SonarQube in Jenkins
+## ⚙️ Step 3: Configure SonarQube in Jenkins
 
 1) Go to Manage Jenkins → Manage Plugins
    a) Install the SonarQube Scanner plugin
@@ -113,7 +113,7 @@ Password: admin
 3) Go to Manage Jenkins → Global Tool Configuration
    a) Add SonarQube Scanner tool named sonar-scanner
 
-# ⚙️ Step 4: Add SonarQube Stage to Jenkins Pipeline
+## ⚙️ Step 4: Add SonarQube Stage to Jenkins Pipeline
 
         pipeline {
             agent any
@@ -192,7 +192,7 @@ After completing the SonarQube static code analysis, the next step in our DevSec
 1) Building the deployable .war file using Maven, and
 2) Integrating OWASP Dependency Check to scan for known vulnerabilities in third-party libraries.
 
-# ⚙️ Step 1: Install OWASP Dependency Check Plugin in Jenkins
+## ⚙️ Step 1: Install OWASP Dependency Check Plugin in Jenkins
 
 1) Navigate to Manage Jenkins → Manage Plugins → Available Plugins
 2) Search for and install the plugin:
@@ -202,7 +202,7 @@ After completing the SonarQube static code analysis, the next step in our DevSec
   b) Provide a name, e.g., DP-Check
   c) Click Apply & Save
 
-# ⚙️ Step 2: Update Jenkins Pipeline
+## ⚙️ Step 2: Update Jenkins Pipeline
 
 We now add two new stages to the Jenkins pipeline:
 
@@ -299,7 +299,7 @@ Once the Jenkins pipeline runs successfully:
 After completing the OWASP Dependency Check stage, the next steps involve integrating Docker and Ansible into the Jenkins pipeline.
 This ensures automated Docker image creation, push to Docker Hub, and container deployment using Ansible playbooks.
 
-# ⚙️ Step 1: Install Docker and Required Jenkins Plugins
+## ⚙️ Step 1: Install Docker and Required Jenkins Plugins
 
 🧩 Install Docker on Jenkins Server
 
@@ -315,7 +315,7 @@ sudo chmod 777 /var/run/docker.sock
 
 docker --version
 
-# ⚙️ Step 2: Configure DockerHub Credentials in Jenkins
+## ⚙️ Step 2: Configure DockerHub Credentials in Jenkins
 
 1) Go to Manage Jenkins → Manage Credentials → Global → Add Credentials
 2) Fill in the following:
@@ -325,14 +325,14 @@ docker --version
    d) ID: dockerhub-credentials (You will use this ID in Jenkins pipeline)
 3) Click Create
 
-# ⚙️ Step 3: Generate DockerHub Personal Access Token (PAT)
+## ⚙️ Step 3: Generate DockerHub Personal Access Token (PAT)
 
 1) Log in to your DockerHub Account
 2) Go to Account Settings → Security → New Access Token
 3) Generate a new token and name it (e.g., jenkins-automation)
 4) Copy the token and store it securely — this will be used inside the Ansible playbook for DockerHub authentication.
 
-# ⚙️ Step 4: Add Ansible Repository and Install Ansible on Ubuntu
+## ⚙️ Step 4: Add Ansible Repository and Install Ansible on Ubuntu
 
 🧩 Add Ansible Repository
 sudo apt-get update
@@ -346,7 +346,7 @@ sudo apt install ansible-core -y
 🧩 Verify Installation
 ansible --version
 
-# ⚙️ Step 5: Configure Ansible Host Inventory
+## ⚙️ Step 5: Configure Ansible Host Inventory
 
 Edit the Ansible hosts file:
 sudo vi /etc/ansible/hosts
@@ -357,7 +357,7 @@ Add your Jenkins or target system under a group:
 
 Save and exit the file.
 
-# ⚙️ Step 6: Configure Ansible in Jenkins
+## ⚙️ Step 6: Configure Ansible in Jenkins
 
 1) Go to Manage Jenkins → Manage Plugins
      a) Ensure the Ansible Plugin is installed.
